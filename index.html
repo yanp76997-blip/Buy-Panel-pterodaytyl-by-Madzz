@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Pterodactyl - MADZZ Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset dan variabel */
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #0a0f1c;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #cbd5e1;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: var(--gray-light);
+        }
+
+        .welcome-message {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-message h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+
+        .welcome-message p {
+            color: var(--gray-light);
+            font-size: 18px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--light);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--accent);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 5px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .ram-size {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ram-size i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: var(--gray-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .features li i {
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .buy-button {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #6d28d9 100%);
+            transform: translateY(-3px);
+        }
+
+        /* Channels Section */
+        .channels {
+            padding: 80px 0;
+            background-color: var(--darker);
+        }
+
+        .channel-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .channel-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px 30px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .channel-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .channel-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .channel-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .channel-card p {
+            color: var(--gray-light);
+            margin-bottom: 20px;
+        }
+
+        .channel-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .channel-button:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #6d28d9 100%);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--light);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            list-style: none;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links li {
+            margin: 0 15px 10px;
+        }
+
+        .footer-links li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links li a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--gray-light);
+            margin: 0 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .pricing-card, .channel-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+            
+            .pricing-card.popular:hover {
+                transform: scale(1) translateY(-10px);
+            }
+            
+            .mobile-menu {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-server"></i>
+                    MADZZ<span>Store</span>
+                </div>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#pricing">Paket RAM</a></li>
+                        <li><a href="#channels">Saluran</a></li>
+                        <li><a href="https://wa.me/6287844198418" target="_blank">Kontak</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="welcome-message">
+                    <h2>Selamat Datang di Web Buy Panel Pterodactyl by MADZZ</h2>
+                    <p>Selamat Berbelanja! Pilih paket RAM yang sesuai dengan kebutuhan bot Anda.</p>
+                </div>
+                <h1>Panel Pterodactyl Untuk Run Bot Private</h1>
+                <p>Dapatkan panel Pterodactyl berkualitas tinggi dengan harga terjangkau. Pilih paket RAM sesuai kebutuhan bot Anda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>List Panel Run Bot Private</h2>
+                <p>Pilih paket RAM yang sesuai dengan kebutuhan bot Anda</p>
+            </div>
+            <div class="pricing-grid">
+                <!-- Paket RAM -->
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 1 GB RAM</div>
+                    <div class="price">Rp 3.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot sederhana</li>
+                        <li><i class="fas fa-check"></i> Performa stabil</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%201%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 2 GB RAM</div>
+                    <div class="price">Rp 4.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot menengah</li>
+                        <li><i class="fas fa-check"></i> Performa optimal</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%202%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 3 GB RAM</div>
+                    <div class="price">Rp 5.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot kompleks</li>
+                        <li><i class="fas fa-check"></i> Performa tinggi</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%203%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 4 GB RAM</div>
+                    <div class="price">Rp 6.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk multiple bot</li>
+                        <li><i class="fas fa-check"></i> Performa sangat baik</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%204%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 5 GB RAM</div>
+                    <div class="price">Rp 7.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot berat</li>
+                        <li><i class="fas fa-check"></i> Performa maksimal</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%205%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Populer</div>
+                    <div class="ram-size"><i class="fas fa-memory"></i> 6 GB RAM</div>
+                    <div class="price">Rp 8.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot enterprise</li>
+                        <li><i class="fas fa-check"></i> Performa sangat tinggi</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%206%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 7 GB RAM</div>
+                    <div class="price">Rp 9.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot kompleks</li>
+                        <li><i class="fas fa-check"></i> Performa optimal</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%207%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 8 GB RAM</div>
+                    <div class="price">Rp 10.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot besar</li>
+                        <li><i class="fas fa-check"></i> Performa sangat baik</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%208%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 9 GB RAM</div>
+                    <div class="price">Rp 11.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot sangat kompleks</li>
+                        <li><i class="fas fa-check"></i> Performa maksimal</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%209%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> 10 GB RAM</div>
+                    <div class="price">Rp 12.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk bot enterprise</li>
+                        <li><i class="fas fa-check"></i> Performa sangat tinggi</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%2010%20GB%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="ram-size"><i class="fas fa-memory"></i> Unlimited RAM</div>
+                    <div class="price">Rp 13.000</div>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Cocok untuk semua jenis bot</li>
+                        <li><i class="fas fa-check"></i> Performa tak terbatas</li>
+                        <li><i class="fas fa-check"></i> Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6287844198418?text=Halo,%20saya%20ingin%20membeli%20panel%20Unlimited%20RAM" class="buy-button">Beli Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Channels Section -->
+    <section class="channels" id="channels">
+        <div class="container">
+            <div class="section-title">
+                <h2>Saluran & Grup</h2>
+                <p>Bergabunglah dengan komunitas kami untuk informasi terbaru dan diskusi</p>
+            </div>
+            <div class="channel-cards">
+                <!-- Grup GB -->
+                <div class="channel-card">
+                    <div class="channel-icon"><i class="fas fa-users"></i></div>
+                    <h3>Grup JB</h3>
+                    <p>Bergabung dengan grup JB untuk mendapatkan informasi terbaru tentang promo dan update panel.</p>
+                    <a href="https://chat.whatsapp.com/JyphfPw6HoFBcQnwFjVnHf?mode=wwt" class="channel-button" target="_blank">Gabung Grup</a>
+                </div>
+                
+                <!-- Saluran -->
+                <div class="channel-card">
+                    <div class="channel-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>Saluran Informasi</h3>
+                    <p>Ikuti saluran kami untuk mendapatkan pengumuman resmi, tips, dan informasi penting lainnya.</p>
+                    <a href="https://whatsapp.com/channel/0029Vb6RU3zGufJ1QqhfBE2k" class="channel-button" target="_blank">Ikuti Saluran</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-server"></i>
+                    MADZZ<span>Store</span>
+                </div>
+                <ul class="footer-links">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#pricing">Paket RAM</a></li>
+                    <li><a href="#channels">Saluran</a></li>
+                    <li><a href="https://wa.me/6287844198418" target="_blank">Kontak</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <p class="copyright">&copy; 2023 MADZZ Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.querySelector('nav').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
